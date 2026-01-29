@@ -3,14 +3,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <!-- Mandatory POM metadata -->
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.example</groupId> 
+    <groupId>com.practice</groupId> 
     <artifactId>gateway</artifactId> 
     <version>1.0.0-SNAPSHOT</version> 
 
     <name>Gateway Project</name>
-    <description>Gateway service with Actuator</description>
+    <description>Gateway service with Actuator and Security</description>
 
+    <!-- Dependencies -->
     <dependencies>
         <!-- Spring Boot Web -->
         <dependency>
@@ -26,9 +28,25 @@
             <version>3.2.0</version>
         </dependency>
 
-        <!-- Other dependencies can go here -->
+        <!-- Spring Boot Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+        <!-- Optional: DevTools for hot reload -->
+        <!--
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>3.2.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        -->
     </dependencies>
 
+    <!-- Build configuration -->
     <build>
         <plugins>
             <!-- Maven Compiler Plugin -->
@@ -40,6 +58,13 @@
                     <source>17</source>
                     <target>17</target>
                 </configuration>
+            </plugin>
+
+            <!-- Spring Boot Maven Plugin -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.2.0</version>
             </plugin>
         </plugins>
     </build>
