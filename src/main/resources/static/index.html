@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Microservices Demo</title>
+    <script>
+        async function loadProducts() {
+            const res = await fetch('/catalog/products');
+            const products = await res.json();
+            let html = '<ul>';
+            products.forEach(p => html += `<li>${p.name} - $${p.price}</li>`);
+            html += '</ul>';
+            document.getElementById('products').innerHTML = html;
+        }
+
+        async function loadStock() {
+            const res = await fetch('/inventory/stock');
+            const stock = await res.json();
+            let html = '<ul>';
+            for (let id in stock) {
+                html += `<li>Product ${id} stock: ${stock[id]}</li>`;
+            }
+            html += '</ul>';
+            document.getElementById('stock').innerHTML = html;
+        }
+
+        async function createOrder() {
+            const productId = document.getElementById('productId').value;
+            const quantity = document.getElementById('quantity').value;
+            const res = await fetch('/orders/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId, quantity })
+            });
+            const result = await res.json();
+            alert(JSON.stringify(result));
+            loadOrders();
+        }
+
+        async function loadOrders() {
+            const res = await fetch('/orders/all');
+            const orders = await res.json();
+            let html = '<ul>';
+            orders.forEach(o => html += `<li>Product ${o.productId} x ${o.quantity}</li>`);
+            html += '</ul>';
+            document.getElementById('orders').innerHTML = html;
+        }
+
+        window.onload = () => {
+            loadProducts();
+            loadStock();
+            loadOrders();
+        };
+    </script>
+</head>
+<body>
+    <h1>Microservices Demo</h1>
+    <h2>Products</h2>
+    <div id="products"></div>
+
+    <h2>Stock</h2>
+    <div id="stock"></div>
+
+    <h2>Create Order</h2>
+    <input type="number" id="productId" placeholder="Product ID">
+    <input type="number" id="quantity" placeholder="Quantity">
+    <button onclick="createOrder()">Order</button>
+
+    <h2>All Orders</h2>
+    <div id="orders"></div>
+</body>
+</html>
